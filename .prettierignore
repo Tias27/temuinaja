@@ -1,0 +1,10 @@
+node_modules/
+vendor/
+storage/
+bootstrap/cache/
+public/build/
+public/storage/
+*.lock
+package-lock.json
+resources/views/
+.env*

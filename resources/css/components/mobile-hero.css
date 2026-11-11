@@ -1,0 +1,114 @@
+.mobile-hero-atmosphere {
+    display: none;
+}
+@media (max-width: 760px) {
+    .concept-hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        min-height: 0;
+        padding-top: 42px;
+        padding-bottom: 42px;
+        background:
+            radial-gradient(ellipse at 96% 15%, #e4d3bd65, transparent 65%),
+            radial-gradient(ellipse at 1% 98%, #e2e7d5a6, transparent 55%), var(--cream);
+    }
+    .mobile-hero-atmosphere {
+        display: block;
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        overflow: hidden;
+    }
+    .mobile-hero-atmosphere::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(#a18d7138 0.8px, transparent 0.8px) 0 0 / 18px 18px;
+        mask-image: linear-gradient(110deg, transparent 45%, #000 100%);
+    }
+    .hero-orbit {
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        border: 1px solid #ba9a7730;
+        border-radius: 50%;
+    }
+    .hero-orbit-one {
+        right: -175px;
+        top: 14%;
+    }
+    .hero-orbit-two {
+        width: 340px;
+        height: 340px;
+        left: -225px;
+        bottom: -225px;
+        border-color: #89977138;
+    }
+    .hero-drift {
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        color: #ad8b66;
+        opacity: 0.4;
+    }
+    .hero-drift-search {
+        top: 20px;
+        right: 14px;
+        transform: rotate(-16deg);
+    }
+    .concept-hero .copy {
+        top: 0;
+    }
+    .concept-hero .overline {
+        display: block;
+        max-width: 85%;
+        font-size: 9px;
+        line-height: 1.9;
+        letter-spacing: 0.16em;
+    }
+    .concept-hero .copy h1 {
+        font-size: clamp(30px, 7.8vw, 42px);
+        line-height: 1.13;
+        margin: 22px 0 21px;
+    }
+    .concept-hero .copy h1 span {
+        text-decoration-thickness: 3px;
+        text-underline-offset: 6px;
+    }
+    .concept-hero .copy p {
+        font-size: 13px;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    }
+    .concept-hero .hero-actions {
+        gap: 15px;
+    }
+    .concept-hero .button-primary {
+        padding: 12px 17px;
+        min-height: 44px;
+        font-size: 12px;
+        border-radius: 11px;
+    }
+    .concept-hero .text-link {
+        font-size: 11px;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+    .hero-drift-search {
+        animation: mobile-hero-search 7s ease-in-out infinite;
+    }
+}
+@keyframes mobile-hero-search {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(-16deg);
+    }
+    50% {
+        transform: translate(-7px, 10px) rotate(-3deg);
+    }
+}

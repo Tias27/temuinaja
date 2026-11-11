@@ -1,0 +1,194 @@
+.page-container.report-choice-page {
+    padding-top: 48px;
+    padding-bottom: 56px;
+}
+.report-choice-heading {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.report-choice-heading .page-title {
+    font-size: clamp(38px, 4.5vw, 54px);
+}
+.report-choice-heading .page-intro {
+    margin: 0 auto;
+    font-size: 14px;
+}
+.report-choices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 880px;
+    margin: 0 auto;
+}
+.report-choice {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 28px 23px;
+    border: 1px solid #dcd2c4;
+    border-radius: 20px;
+    background: linear-gradient(160deg, #fffaf4, #f5efe5);
+    transition:
+        transform 0.25s,
+        border-color 0.25s,
+        box-shadow 0.25s;
+}
+.report-choice-found {
+    background: linear-gradient(160deg, #fffaf4, #eff0e7);
+}
+.report-choice-art {
+    display: grid;
+    place-items: center;
+    height: 160px;
+    margin-bottom: 18px;
+}
+.report-choice-art svg {
+    width: 220px;
+    height: 160px;
+    max-width: 100%;
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.25, 1);
+}
+.report-choice-kicker {
+    color: #927159;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+.report-choice-found .report-choice-kicker {
+    color: #738064;
+}
+.report-choice h2 {
+    margin: 10px 0 12px;
+    font:
+        normal 28px/1.15 Georgia,
+        serif;
+    letter-spacing: -0.03em;
+}
+.report-choice-copy p {
+    margin: 0 0 23px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+.report-choice-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding-top: 17px;
+    border-top: 1px solid #ddd3c5;
+    margin-top: auto;
+    color: var(--rust);
+    font-size: 12px;
+    font-weight: 700;
+}
+.report-choice-action svg {
+    width: 21px;
+    height: 21px;
+    transition: transform 0.25s;
+}
+.report-choice-help {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin: 28px auto 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+.report-choice-help a {
+    font-size: inherit;
+}
+.report-type-field > p {
+    margin: 0 0 9px;
+    font-size: 12px;
+    font-weight: 650;
+}
+.report-type-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    padding: 5px;
+    border: 1px solid #ded5c8;
+    border-radius: 11px;
+    background: #f0ebe2;
+}
+.report-type-switch a {
+    display: grid;
+    place-items: center;
+    min-height: 44px;
+    padding: 9px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.5;
+}
+.report-type-switch a[aria-current] {
+    border-color: #d5bdab;
+    background: var(--paper);
+    color: var(--rust);
+    box-shadow: 0 2px 4px #2d2a2607;
+}
+.report-type-switch a:hover {
+    color: var(--rust);
+    background: #fffaf480;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .report-choice:hover {
+        border-color: #bfa78e;
+        box-shadow: 0 10px 24px #5043310c;
+        transform: translateY(-4px);
+    }
+    .report-choice:hover .report-choice-art svg {
+        transform: translateY(-3px) rotate(-3deg);
+    }
+    .report-choice:hover .report-choice-action svg {
+        transform: translateX(4px);
+    }
+}
+@media (max-width: 760px) {
+    .page-container.report-choice-page {
+        padding-top: 34px;
+    }
+    .report-choices {
+        gap: 16px;
+    }
+    .report-choice {
+        padding: 18px 20px 21px;
+    }
+    .report-choice h2 {
+        font-size: 25px;
+    }
+}
+@media (max-width: 600px) {
+    .report-choices {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+    .report-choice-heading {
+        text-align: left;
+        margin-bottom: 26px;
+    }
+    .report-choice-heading .page-intro {
+        margin-left: 0;
+        font-size: 13px;
+    }
+    .report-choice-art {
+        height: 115px;
+        margin-bottom: 12px;
+    }
+    .report-choice-art svg {
+        width: 160px;
+        height: 115px;
+    }
+    .report-choice-help {
+        align-items: flex-start;
+        flex-direction: column;
+        text-align: left;
+        max-width: 420px;
+    }
+}

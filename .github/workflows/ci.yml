@@ -1,0 +1,64 @@
+name: Validate Temuin Aja
+
+on:
+    push:
+    pull_request:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: validate-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+            - name: Set up PHP
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+              with:
+                  php-version: '8.3'
+                  extensions: mbstring, pdo_sqlite, gd, fileinfo
+                  tools: composer:v2
+                  coverage: none
+            - name: Set up Node.js
+              uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+              with:
+                  node-version: '22'
+                  cache: npm
+            - name: Install PHP dependencies
+              run: composer install --no-interaction --prefer-dist --optimize-autoloader
+            - name: Configure test environment
+              run: |
+                  cp .env.example .env
+                  php artisan key:generate --force
+            - name: Install JavaScript dependencies
+              run: npm ci
+            - name: Check PHP formatting
+              run: vendor/bin/pint --test
+            - name: Check asset and Blade formatting
+              run: npm run format:check
+            - name: Audit dependencies
+              run: |
+                  composer audit --locked --no-interaction
+                  npm audit
+            - name: Build assets
+              run: npm run build
+            - name: Run application tests
+              run: php artisan test
+            - name: Verify unavailable image processor handling
+              run: php -d disable_functions=imagecreatefromstring vendor/phpunit/phpunit/phpunit --filter test_missing_image_processor_returns_form_error_instead_of_500
+            - name: Compile views
+              run: php artisan view:cache
+            - name: Save production assets
+              uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+              with:
+                  name: temuin-public-build
+                  path: public/build/
+                  if-no-files-found: error
+                  retention-days: 14

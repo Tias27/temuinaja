@@ -1,0 +1,88 @@
+.mobile-navigation,
+.mobile-header-search {
+    display: none;
+}
+@media (max-width: 760px) {
+    .has-mobile-navigation {
+        padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    }
+    .has-mobile-navigation .site-header {
+        min-height: 60px;
+        padding: 9px 18px;
+    }
+    .has-mobile-navigation .site-header .nav-cta {
+        display: none;
+    }
+    .has-mobile-navigation .brand {
+        font-size: 19px;
+        gap: 9px;
+    }
+    .has-mobile-navigation .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+    }
+    .mobile-header-search {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #e1d9cd;
+        border-radius: 50%;
+        color: #7c6b59;
+    }
+    .mobile-header-search svg {
+        width: 20px;
+        height: 20px;
+    }
+    .mobile-navigation {
+        position: fixed;
+        z-index: 110;
+        inset: auto 0 0;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 5px;
+        padding: 8px max(12px, env(safe-area-inset-right, 0px))
+            calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+        border-top: 1px solid #e1ded2;
+        background: #fffdf8f5;
+        box-shadow: 0 -4px 18px #3c342807;
+        backdrop-filter: blur(14px);
+    }
+    .mobile-navigation a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        min-height: 52px;
+        padding: 6px 4px;
+        border-radius: 13px;
+        font-size: 10px;
+        line-height: 1.4;
+        color: #716b60;
+        transition:
+            background 0.2s,
+            color 0.2s;
+    }
+    .mobile-navigation svg {
+        width: 21px;
+        height: 21px;
+    }
+    .mobile-navigation a[aria-current] {
+        background: #c7654514;
+        color: var(--rust);
+        font-weight: 650;
+    }
+    .mobile-navigation a:focus-visible {
+        outline-offset: -2px;
+    }
+    .has-mobile-navigation input,
+    .has-mobile-navigation textarea,
+    .has-mobile-navigation button {
+        scroll-margin-bottom: 100px;
+    }
+    .has-mobile-navigation .mock-footer {
+        padding-bottom: 24px;
+    }
+}
