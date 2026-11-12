@@ -18,7 +18,7 @@ class ReportSubmissionTest extends TestCase
     {
         return [
             'nama_pelapor' => 'Pelapor Pengujian',
-            'kontak_pelapor' => '0812-3456-7890',
+            'kontak_pelapor' => '081234567890',
             'deskripsi' => 'Dompet cokelat dengan tanda kecil di depan',
             'lokasi' => 'Kantin Gedung A',
             'tanggal_kejadian' => today()->toDateString(),
@@ -83,7 +83,7 @@ class ReportSubmissionTest extends TestCase
 
     public static function invalidContacts(): array
     {
-        return [[null], ['123'], ['0812abc345678'], ['javascript:6281234567890'], [['081234567890']], ['6281234567890123456']];
+        return [[null], ['123'], ['0812abc345678'], ['0812 3456 7890'], ['0812-3456-7890'], ['+6281234567890'], ['javascript:6281234567890'], [['081234567890']], ['6281234567890123456']];
     }
 
     #[DataProvider('invalidContacts')]
@@ -101,12 +101,12 @@ class ReportSubmissionTest extends TestCase
         $this->assertSame([], Storage::disk('local')->allFiles());
     }
 
-    public function test_international_contact_format_is_normalized(): void
+    public function test_international_contact_digits_are_accepted(): void
     {
         Storage::fake('local');
         $this->post(route('laporan.store', 'ditemukan'), [
             ...$this->fields(),
-            'kontak_pelapor' => '+62 812 3456 7890',
+            'kontak_pelapor' => '6281234567890',
             'foto_barang' => [UploadedFile::fake()->image('foto.png')],
         ])->assertSessionHasNoErrors()->assertRedirect();
 

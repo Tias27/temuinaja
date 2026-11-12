@@ -21,8 +21,8 @@
             </label>
             <label for="kontak-pihak">WhatsApp {{ $isLost ? 'penemu' : 'penerima' }}
                 <input id="kontak-pihak" type="tel" name="kontak_pihak"
-                    value="{{ old('kontak_pihak') }}" maxlength="30" inputmode="tel"
-                    placeholder="08xxxxxxxxxx" required>
+                    value="{{ old('kontak_pihak') }}" maxlength="15" inputmode="numeric"
+                    pattern="[0-9]+" data-phone-digits placeholder="08xxxxxxxxxx" required>
                 @error('kontak_pihak')
                     <span class="field-error">{{ $message }}</span>
                 @enderror

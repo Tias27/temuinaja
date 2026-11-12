@@ -120,18 +120,19 @@ class InterfaceTest extends TestCase
                 ->assertSee('action="'.route('laporan.store', $type).'"', false)
                 ->assertSee('Jenis laporan')
                 ->assertSee('name="kontak_pelapor"', false)
+                ->assertSee('inputmode="numeric" pattern="[0-9]+" data-phone-digits', false)
                 ->assertSee('href="'.route('laporan.create', 'hilang').'"', false)
                 ->assertSee('href="'.route('laporan.create', 'ditemukan').'"', false);
             $this->from($url)->post(route('laporan.store', $type), [
                 'nama_pelapor' => 'Penguji Formulir',
-                'kontak_pelapor' => '0812-9876-5432',
+                'kontak_pelapor' => '081298765432',
                 'deskripsi' => 'Dompet kulit dengan tanda kecil',
                 'lokasi' => 'Kantin',
                 'tanggal_kejadian' => today()->toDateString(),
             ])->assertRedirect($url)->assertSessionHasErrors('foto_barang');
             $this->get($url)->assertOk()
                 ->assertSee('Penguji Formulir')
-                ->assertSee('0812-9876-5432')
+                ->assertSee('081298765432')
                 ->assertSee('Pilih ulang foto');
         }
         $this->assertDatabaseCount('laporan', 0);

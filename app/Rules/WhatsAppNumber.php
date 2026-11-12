@@ -16,20 +16,20 @@ class WhatsAppNumber implements ValidationRule
             return;
         }
 
+        if (! preg_match('/^[0-9]+$/D', $value)) {
+            $fail('Nomor WhatsApp hanya boleh berisi angka tanpa spasi atau simbol');
+
+            return;
+        }
+
         if (WhatsApp::normalize($value) !== null) {
             return;
         }
 
-        if (! preg_match('/^\+?[0-9\s()\-]+$/D', trim($value))) {
-            $fail('Nomor WhatsApp tidak boleh berisi huruf atau simbol selain +, spasi, tanda kurung, dan tanda hubung');
-
-            return;
-        }
-
-        $digits = preg_replace('/[^0-9]/', '', $value);
+        $digits = $value;
         $local = str_starts_with($digits, '08');
         if (! $local && ! str_starts_with($digits, '628')) {
-            $fail('Awali nomor WhatsApp dengan 08, 628, atau +628');
+            $fail('Awali nomor WhatsApp dengan 08 atau 628');
 
             return;
         }

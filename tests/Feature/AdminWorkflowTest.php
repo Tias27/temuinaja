@@ -177,7 +177,7 @@ class AdminWorkflowTest extends TestCase
             ->assertDontSee('Catatan verifikasi kepemilikan');
         $this->post(route('admin.complete', $report), [
             'nama_pihak' => 'Dina Penemu',
-            'kontak_pihak' => '0812-1111-2222',
+            'kontak_pihak' => '081211112222',
             'lokasi_ditemukan' => 'Kantin Gedung A',
         ])->assertRedirect();
 
@@ -210,7 +210,7 @@ class AdminWorkflowTest extends TestCase
         $this->get(route('admin.show', $report))->assertOk()
             ->assertSee('Barang sudah diambil?')
             ->assertSee('Catatan verifikasi kepemilikan');
-        $payload = ['nama_pihak' => 'Budi Pemilik', 'kontak_pihak' => '0812 3333 4444'];
+        $payload = ['nama_pihak' => 'Budi Pemilik', 'kontak_pihak' => '081233334444'];
         $this->post(route('admin.complete', $report), $payload)
             ->assertSessionHasErrors('catatan_verifikasi');
         $this->assertSame('dipublikasikan', $report->fresh()->status_laporan);
@@ -272,10 +272,27 @@ class AdminWorkflowTest extends TestCase
         $this->assertDatabaseCount('penyelesaian_laporan', 0);
 
         $this->post(route('admin.complete', $report), [
-            ...$payload, 'kontak_pihak' => '0856 5656 1234',
+            ...$payload, 'kontak_pihak' => '085656561234',
         ])->assertSessionHasNoErrors();
         $this->assertSame('selesai', $report->fresh()->status_laporan);
         $this->assertSame('6285656561234', $report->fresh()->penyelesaian->kontak_pihak);
+    }
+
+    public function test_completion_rejects_phone_letters_and_symbols(): void
+    {
+        $this->actingAs($this->admin(), 'admin');
+        $report = $this->report('hilang', 'dipublikasikan');
+
+        foreach (['0812abc345678', '0812 3456 7890', '0812-3456-7890', '+6281234567890'] as $contact) {
+            $this->post(route('admin.complete', $report), [
+                'nama_pihak' => 'Penemu Pengujian',
+                'kontak_pihak' => $contact,
+                'lokasi_ditemukan' => 'Kantin',
+            ])->assertSessionHasErrors('kontak_pihak');
+        }
+
+        $this->assertSame('dipublikasikan', $report->fresh()->status_laporan);
+        $this->assertDatabaseCount('penyelesaian_laporan', 0);
     }
 
     public function test_guest_cannot_publish_or_complete_reports(): void

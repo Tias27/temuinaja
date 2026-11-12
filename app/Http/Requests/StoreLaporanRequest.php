@@ -29,7 +29,7 @@ class StoreLaporanRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $contact = $this->input('kontak_pelapor');
-        if (is_string($contact) && ($normalized = WhatsApp::normalize($contact)) !== null) {
+        if (is_string($contact) && preg_match('/^[0-9]+$/D', $contact) && ($normalized = WhatsApp::normalize($contact)) !== null) {
             $this->merge(['kontak_pelapor' => $normalized]);
         }
     }

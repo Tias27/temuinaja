@@ -72,9 +72,9 @@
                 <div class="field">
                     <label for="kontak-pelapor">Nomor WhatsApp</label>
                     <input id="kontak-pelapor" type="tel" name="kontak_pelapor"
-                        value="{{ old('kontak_pelapor') }}" required maxlength="30" autocomplete="tel"
-                        inputmode="tel" placeholder="08xxxxxxxxxx"
-                        aria-describedby="kontak-hint kontak-error"
+                        value="{{ old('kontak_pelapor') }}" required maxlength="15" autocomplete="tel"
+                        inputmode="numeric" pattern="[0-9]+" data-phone-digits
+                        placeholder="08xxxxxxxxxx" aria-describedby="kontak-hint kontak-error"
                         @error('kontak_pelapor') aria-invalid="true" @enderror>
                     <p id="kontak-hint" class="field-hint">Gunakan nomor aktif agar petugas bisa
                         menghubungimu. Nomor ini hanya terlihat oleh petugas</p>
