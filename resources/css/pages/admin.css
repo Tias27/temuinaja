@@ -402,6 +402,27 @@
     font-size: 11px;
     line-height: 1.6;
 }
+.admin-unpublish {
+    border-color: #e0c8b9;
+    background: #fffaf6;
+}
+.admin-unpublish-confirm {
+    display: flex !important;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+}
+.admin-unpublish-confirm input {
+    flex: none;
+    width: 17px;
+    min-height: 17px;
+    margin: 1px 0 0;
+    accent-color: var(--rust);
+}
+.admin-unpublish-button {
+    border-color: #bd8b75;
+    color: var(--rust);
+}
 .admin-completion {
     margin-top: 23px;
 }

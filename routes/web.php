@@ -80,6 +80,8 @@ Route::prefix('admin')
             Route::get('/laporan/{laporan}', [AdminLaporanController::class, 'show'])->name('show');
             Route::post('/laporan/{laporan}/review', [AdminLaporanController::class, 'review'])
                 ->name('review');
+            Route::post('/laporan/{laporan}/tarik-publikasi', [AdminLaporanController::class, 'unpublish'])
+                ->name('unpublish');
             Route::post('/laporan/{laporan}/selesai', [AdminLaporanController::class, 'complete'])
                 ->name('complete');
         });

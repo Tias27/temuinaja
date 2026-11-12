@@ -121,6 +121,50 @@ class AdminWorkflowTest extends TestCase
         $this->get(route('laporan.index', 'hilang'))->assertDontSee($rejected->kode_laporan);
     }
 
+    public function test_admin_can_remove_publication_without_deleting_report_and_publish_it_again(): void
+    {
+        $admin = $this->admin();
+        $this->actingAs($admin, 'admin');
+
+        foreach (['hilang', 'ditemukan'] as $type) {
+            $report = $this->report($type, 'dipublikasikan');
+            $this->get(route('admin.show', $report))->assertOk()
+                ->assertSee('Hapus publikasi');
+            $this->post(route('admin.unpublish', $report), [])
+                ->assertSessionHasErrors('konfirmasi');
+            $this->assertSame('dipublikasikan', $report->fresh()->status_laporan);
+
+            $this->post(route('admin.unpublish', $report), ['konfirmasi' => '1'])
+                ->assertRedirect(route('admin.show', $report));
+            $report->refresh();
+            $this->assertSame('menunggu_pemeriksaan', $report->status_laporan);
+            $this->assertNull($report->dipublikasikan_pada);
+            $this->assertDatabaseHas('laporan', ['id_laporan' => $report->id_laporan]);
+            $this->get(route('laporan.index', $type))->assertDontSee($report->kode_laporan);
+            $this->get(route('laporan.show', $report))->assertNotFound();
+            $this->get(route('admin.show', $report))->assertOk()
+                ->assertSee('Publikasikan laporan')->assertDontSee('Hapus publikasi');
+            $this->post(route('admin.unpublish', $report), ['konfirmasi' => '1'])
+                ->assertSessionHasErrors();
+
+            $this->post(route('admin.review', $report), ['aksi' => 'terima'])
+                ->assertRedirect();
+            $this->assertSame('dipublikasikan', $report->fresh()->status_laporan);
+            $this->get(route('laporan.index', $type))->assertSee($report->kode_laporan);
+        }
+    }
+
+    public function test_completed_report_cannot_have_its_publication_removed(): void
+    {
+        $this->actingAs($this->admin(), 'admin');
+        $report = $this->report('ditemukan', 'selesai');
+
+        $this->get(route('admin.show', $report))->assertOk()->assertDontSee('Hapus publikasi');
+        $this->post(route('admin.unpublish', $report), ['konfirmasi' => '1'])
+            ->assertSessionHasErrors();
+        $this->assertSame('selesai', $report->fresh()->status_laporan);
+    }
+
     public function test_lost_report_completion_records_finder_location_admin_and_time_once(): void
     {
         $admin = $this->admin();
@@ -244,6 +288,8 @@ class AdminWorkflowTest extends TestCase
             'nama_pihak' => 'Penemu', 'kontak_pihak' => '081234567890',
             'lokasi_ditemukan' => 'Gedung B',
         ])->assertRedirect(route('admin.login'));
+        $this->post(route('admin.unpublish', $published), ['konfirmasi' => '1'])
+            ->assertRedirect(route('admin.login'));
         $this->assertSame('menunggu_pemeriksaan', $pending->fresh()->status_laporan);
         $this->assertSame('dipublikasikan', $published->fresh()->status_laporan);
     }

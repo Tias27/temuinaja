@@ -87,6 +87,7 @@
     <div class="admin-workflow">
         @include('admin.partials.review')
         @include('admin.partials.complete')
+        @include('admin.partials.unpublish')
     </div>
     @include('admin.partials.completion-summary')
     @if ($laporan->adminStage() === 'ditolak')

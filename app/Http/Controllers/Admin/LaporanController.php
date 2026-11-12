@@ -107,4 +107,28 @@ class LaporanController extends Controller
             return back()->with('sukses', 'Laporan selesai dan masuk ke riwayat.');
         });
     }
+
+    public function unpublish(Request $request, Laporan $laporan)
+    {
+        Gate::authorize('manage-laporan');
+        $request->validate(['konfirmasi' => 'required|accepted']);
+
+        return DB::transaction(function () use ($laporan) {
+            $current = Laporan::query()->whereKey($laporan->getKey())->lockForUpdate()->firstOrFail();
+            if ($current->adminStage() !== 'dipublikasikan') {
+                return back()->withErrors('Publikasi laporan ini sudah tidak aktif.');
+            }
+
+            $current->update([
+                'status_laporan' => 'menunggu_pemeriksaan',
+                'dipublikasikan_pada' => null,
+            ]);
+            Log::info('security.report_unpublished', [
+                'report_id' => $current->getKey(), 'admin_id' => Auth::guard('admin')->id(),
+            ]);
+
+            return redirect()->route('admin.show', $current)
+                ->with('sukses', 'Publikasi dihapus. Laporan masuk ke tahap menunggu dan bisa diperiksa lagi.');
+        });
+    }
 }
