@@ -252,6 +252,7 @@
     overflow-wrap: anywhere;
 }
 .history-empty {
+    grid-column: 1 / -1;
     text-align: center;
 }
 .history-empty h2 {
@@ -277,12 +278,53 @@
         padding: 14px 16px;
         gap: 12px;
     }
-    .history-item,
     .history-empty {
         padding: 20px;
     }
+    .history-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+    .history-item {
+        padding: 14px 12px;
+        border-radius: 14px;
+    }
+    .history-item-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .history-item-heading .eyebrow {
+        font-size: 9px;
+        letter-spacing: 0.08em;
+    }
+    .history-item-heading .status-badge {
+        max-width: 100%;
+        padding: 5px 8px;
+        font-size: 10px;
+        overflow-wrap: anywhere;
+    }
+    .history-item h2 {
+        margin: 12px 0 8px;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+    .history-status {
+        font-size: 11px;
+        line-height: 1.6;
+    }
     .history-facts {
         grid-template-columns: 1fr;
+        gap: 12px;
+        padding-top: 12px;
+    }
+    .history-facts dt {
+        margin-bottom: 4px;
+        font-size: 10px;
+    }
+    .history-facts dd {
+        font-size: 12px;
+        line-height: 1.5;
     }
 }
 .report-type-field > p {
