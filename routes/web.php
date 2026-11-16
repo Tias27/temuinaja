@@ -49,6 +49,9 @@ Route::get('/lapor/riwayat', [ReportHistoryController::class, 'index'])
 Route::get('/lapor/riwayat/halaman/{page}', [ReportHistoryController::class, 'index'])
     ->whereNumber('page')
     ->middleware(['throttle:catalog', BrowserReportHistory::class])->name('laporan.history.page');
+Route::get('/lapor/riwayat/{laporan}/foto/{index}', [ReportHistoryController::class, 'photo'])
+    ->where('index', '[0-2]')
+    ->middleware(['throttle:report-photo', BrowserReportHistory::class])->name('laporan.history.photo');
 Route::get('/lapor/{jenis}', [PublicLaporanController::class, 'create'])
     ->whereIn('jenis', ['hilang', 'ditemukan'])->middleware(BrowserReportHistory::class)->name('laporan.create');
 Route::post('/lapor/{jenis}', [PublicLaporanController::class, 'store'])

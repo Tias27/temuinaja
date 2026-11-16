@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLaporanRequest;
 use App\Models\Laporan;
+use App\Support\ReportPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -180,16 +181,7 @@ class PublicLaporanController extends Controller
     public function foto(Laporan $laporan, int $index)
     {
         abort_unless(auth('admin')->check() || $laporan->isVisibleToPublic(), 404);
-        $path = $laporan->foto_barang[$index] ?? null;
-        abort_unless(is_string($path) && preg_match('~^laporan/[a-zA-Z0-9_-]+\.webp$~D', $path), 404);
-        $root = realpath(Storage::disk('local')->path('laporan'));
-        $file = realpath(Storage::disk('local')->path($path));
-        abort_unless($root && $file && is_file($file) && str_starts_with($file, $root.DIRECTORY_SEPARATOR), 404);
 
-        return response()->file($file, [
-            'Content-Type' => 'image/webp',
-            'Cache-Control' => auth('admin')->check() || $laporan->status_laporan === 'selesai' ? 'private, no-store' : 'private, max-age=3600',
-            'X-Content-Type-Options' => 'nosniff',
-        ])->setPrivate();
+        return ReportPhoto::response($laporan, $index, auth('admin')->check() || $laporan->status_laporan === 'selesai');
     }
 }

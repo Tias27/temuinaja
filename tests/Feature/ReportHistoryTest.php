@@ -115,4 +115,36 @@ class ReportHistoryTest extends TestCase
             ->assertViewHas('laporan', fn ($items) => $items->count() === 1);
         $this->get(route('laporan.history.page', ['page' => 0]))->assertNotFound();
     }
+
+    public function test_history_photos_require_owner_cookie_even_when_report_is_not_public(): void
+    {
+        Storage::fake('local');
+        Storage::disk('local')->put('laporan/history.webp', 'private-photo');
+        $token = bin2hex(random_bytes(32));
+        $this->withCookie(BrowserReportHistory::COOKIE, $token);
+
+        foreach (['menunggu_pemeriksaan', 'ditolak', 'selesai'] as $status) {
+            $report = $this->report($token, $status);
+            $report->update(['foto_barang' => ['laporan/history.webp']]);
+            $url = route('laporan.history.photo', [$report, 0]);
+            $this->get(route('laporan.history'))->assertOk()->assertSee($url)
+                ->assertSee('Lihat detail')->assertSee('Tentang riwayat');
+            $this->get($url)->assertOk()->assertHeader('Cache-Control', 'no-store, private')
+                ->assertHeader('Content-Type', 'image/webp');
+            $this->get(route('foto.show', [$report, 0]))->assertNotFound();
+            $this->withCookie(BrowserReportHistory::COOKIE, bin2hex(random_bytes(32)))
+                ->get($url)->assertNotFound();
+            $this->withCookie(BrowserReportHistory::COOKIE, '')
+                ->get($url)->assertNotFound();
+            $this->withCookie(BrowserReportHistory::COOKIE, $token);
+        }
+
+        $legacy = $this->report(null);
+        $legacy->update(['foto_barang' => ['laporan/history.webp']]);
+        $this->get(route('laporan.history.photo', [$legacy, 0]))->assertNotFound();
+        $this->get(route('laporan.history.photo', [$report, 1]))->assertNotFound();
+        $this->get(route('laporan.history.photo', [$report, 3]))->assertNotFound();
+        $report->update(['foto_barang' => ['../history.webp']]);
+        $this->get(route('laporan.history.photo', [$report, 0]))->assertNotFound();
+    }
 }
