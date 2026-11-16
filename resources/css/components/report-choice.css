@@ -100,6 +100,124 @@
 .report-choice-help a {
     font-size: inherit;
 }
+.report-history-entry {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    max-width: 880px;
+    padding: 24px 28px;
+    margin: 20px auto 0;
+    border: 1px solid #dcd2c4;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #f4e9dd, #fffaf4);
+}
+.report-history-entry > svg {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    color: var(--rust);
+}
+.report-history-entry h2 {
+    margin: 6px 0;
+    font:
+        normal 28px/1.2 Georgia,
+        serif;
+}
+.report-history-entry p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+.report-history-entry > span {
+    margin-left: auto;
+    color: var(--rust);
+}
+.report-history-entry:hover {
+    border-color: #bfa78e;
+}
+.report-history-page {
+    max-width: 900px;
+}
+.history-privacy {
+    margin: 24px 0;
+    line-height: 1.8;
+}
+.history-list {
+    display: grid;
+    gap: 18px;
+}
+.history-item,
+.history-empty {
+    padding: 26px;
+    min-width: 0;
+}
+.history-item-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.history-item h2 {
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+.history-status,
+.history-empty p,
+.history-footnote {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+.history-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding-top: 20px;
+    margin-bottom: 0;
+    border-top: 1px solid var(--line);
+}
+.history-facts dt {
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+.history-facts dd {
+    margin: 0;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+.history-empty {
+    text-align: center;
+}
+.history-empty h2 {
+    font:
+        normal 28px/1.3 Georgia,
+        serif;
+}
+.history-empty .button {
+    margin-top: 12px;
+}
+.history-footnote {
+    margin-top: 24px;
+    font-size: 11px;
+}
+@media (max-width: 600px) {
+    .report-history-entry {
+        max-width: 420px;
+        padding: 20px;
+        gap: 15px;
+    }
+    .history-item,
+    .history-empty {
+        padding: 20px;
+    }
+    .history-facts {
+        grid-template-columns: 1fr;
+    }
+}
 .report-type-field > p {
     margin: 0 0 9px;
     font-size: 12px;

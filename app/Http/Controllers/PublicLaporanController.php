@@ -149,6 +149,7 @@ class PublicLaporanController extends Controller
                 'foto_barang' => $paths,
                 'kode_laporan' => 'TA-'.strtoupper(Str::random(12)),
                 'status_laporan' => 'menunggu_pemeriksaan',
+                'browser_history_hash' => $request->attributes->get('browser_history_hash'),
             ]);
 
             return redirect()->route('laporan.confirmation', $laporan->kode_laporan);

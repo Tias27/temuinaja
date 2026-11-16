@@ -97,6 +97,19 @@ Repository: `https://github.com/Tias27/temuinaja`
     PHP hosting. Foto laporan berada di disk privat; tidak memerlukan
     `php artisan storage:link`
 
+## Riwayat laporan tanpa akun
+
+Menu `/lapor/riwayat` memakai cookie terenkripsi `temuin_report_history` yang
+HttpOnly, SameSite=Lax, tanpa domain lintas subdomain, dan Secure pada HTTPS.
+Database hanya menyimpan hash token acak 256 bit. Cookie berlaku satu tahun dan
+diperpanjang ketika pengguna membuka riwayat atau membuat laporan.
+
+Laporan sebelum migrasi riwayat tidak dikaitkan otomatis. Menghapus cookie,
+berganti browser/domain, atau menutup mode incognito menghilangkan akses dari
+browser tersebut; data laporan tetap tersimpan untuk admin. Orang lain yang
+memakai profil browser yang sama juga dapat melihat riwayat. Laporan selesai
+tetap tampil di riwayat pribadi meskipun sudah hilang dari katalog publik.
+
 ## Batas upload
 
 ```ini

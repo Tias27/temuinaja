@@ -20,7 +20,7 @@
                 mengatur langkah berikutnya setelah laporan diperiksa</p>
         @endif
         <div class="actions">
-            <a class="button accent" href="{{ route('home') }}">Kembali ke beranda</a>
+            <a class="button accent" href="{{ route('laporan.history') }}">Lihat riwayat laporan</a>
             <a class="text-link" href="{{ route('laporan.index', 'ditemukan') }}">Lihat barang
                 temuan</a>
         </div>

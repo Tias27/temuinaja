@@ -13,7 +13,7 @@ class Laporan extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['kontak_pelapor'];
+    protected $hidden = ['kontak_pelapor', 'browser_history_hash'];
 
     protected $casts = [
         'foto_barang' => 'array',

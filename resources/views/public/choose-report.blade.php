@@ -7,7 +7,7 @@
         <div class="report-choice-heading">
             <span class="eyebrow">MULAI DARI SINI</span>
             <h1 class="page-title" id="report-choice-title">Mau melaporkan<br><em>apa hari ini?</em></h1>
-            <p class="page-intro">Pilih sesuai keadaanmu, lalu ceritakan detail barangnya</p>
+            <p class="page-intro">Buat laporan baru atau pantau laporan yang sudah kamu kirim</p>
         </div>
         <div class="report-choices">
             <a class="report-choice" href="{{ route('laporan.create', 'hilang') }}"
@@ -48,6 +48,18 @@
                 </span>
             </a>
         </div>
+        <a class="report-history-entry" href="{{ route('laporan.history') }}">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 11a9 9 0 1 1 2.6 7M3 4v7h7m2-4v5l3 2" stroke="currentColor"
+                    stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div>
+                <span class="report-choice-kicker">LAPORAN DARI BROWSER INI</span>
+                <h2>Riwayat</h2>
+                <p>Cek kabar laporanmu tanpa perlu login</p>
+            </div>
+            <span aria-hidden="true">&rarr;</span>
+        </a>
         <p class="report-choice-help">Mau cek apakah barangmu sudah ditemukan? <a class="text-link"
                 href="{{ route('laporan.index', 'ditemukan') }}">Lihat barang temuan <span
                     aria-hidden="true">&rarr;</span></a></p>

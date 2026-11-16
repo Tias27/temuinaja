@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\PublicLaporanController;
+use App\Http\Controllers\ReportHistoryController;
+use App\Http\Middleware\BrowserReportHistory;
 use Illuminate\Support\Facades\Route;
 
 Route::pattern('laporan', 'TA-[A-Z0-9-]{1,60}');
@@ -42,11 +44,16 @@ Route::get('/barang/{jenis}', [PublicLaporanController::class, 'index'])
     ->name('laporan.index');
 
 Route::view('/lapor', 'public.choose-report')->name('laporan.choose');
+Route::get('/lapor/riwayat', [ReportHistoryController::class, 'index'])
+    ->middleware(['throttle:catalog', BrowserReportHistory::class])->name('laporan.history');
+Route::get('/lapor/riwayat/halaman/{page}', [ReportHistoryController::class, 'index'])
+    ->whereNumber('page')
+    ->middleware(['throttle:catalog', BrowserReportHistory::class])->name('laporan.history.page');
 Route::get('/lapor/{jenis}', [PublicLaporanController::class, 'create'])
-    ->whereIn('jenis', ['hilang', 'ditemukan'])->name('laporan.create');
+    ->whereIn('jenis', ['hilang', 'ditemukan'])->middleware(BrowserReportHistory::class)->name('laporan.create');
 Route::post('/lapor/{jenis}', [PublicLaporanController::class, 'store'])
     ->whereIn('jenis', ['hilang', 'ditemukan'])
-    ->middleware('throttle:report-submit')
+    ->middleware(['throttle:report-submit', BrowserReportHistory::class])
     ->name('laporan.store');
 Route::get('/laporan/sukses/{kode}', [PublicLaporanController::class, 'confirmation'])
     ->middleware('throttle:report-detail')

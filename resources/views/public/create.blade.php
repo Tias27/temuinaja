@@ -134,7 +134,8 @@
                     </div>
                 </div>
                 <div class="form-submit">
-                    <p>Sudah sesuai? Kirim untuk diperiksa petugas</p>
+                    <p>Sudah sesuai? Kirim untuk diperiksa petugas. Riwayat laporan bisa dilihat dari
+                        browser ini tanpa login</p>
                     <button class="button accent" type="submit">Kirim laporan <span
                             aria-hidden="true">&rarr;</span></button>
                 </div>

@@ -22,7 +22,12 @@
         <span>Barang</span>
     </a>
     <a href="{{ route('laporan.choose') }}" data-mobile-nav="report"
-        @if (request()->routeIs('laporan.choose', 'laporan.create', 'laporan.confirmation')) aria-current="page" @endif>
+        @if (request()->routeIs(
+                'laporan.choose',
+                'laporan.create',
+                'laporan.confirmation',
+                'laporan.history',
+                'laporan.history.page')) aria-current="page" @endif>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8m-8 4h5" stroke="currentColor"
                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />

@@ -11,7 +11,11 @@
             @if (request()->routeIs('laporan.index', 'laporan.page', 'laporan.search.index', 'laporan.show')) aria-current="page" @endif>Barang</a>
         <a href="{{ $guideUrl }}">Cara kerja</a>
         <a href="{{ route('laporan.choose') }}"
-            @if (request()->routeIs('laporan.choose', 'laporan.create')) aria-current="page" @endif>Laporan</a>
+            @if (request()->routeIs(
+                    'laporan.choose',
+                    'laporan.create',
+                    'laporan.history',
+                    'laporan.history.page')) aria-current="page" @endif>Laporan</a>
     </nav>
     <a class="nav-cta" href="{{ route('laporan.choose') }}">Buat laporan</a>
     <a class="mobile-header-search" href="{{ $itemsUrl }}" aria-label="Cari barang">
