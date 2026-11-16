@@ -54,9 +54,8 @@
                     stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <div>
-                <span class="report-choice-kicker">LAPORAN DARI BROWSER INI</span>
                 <h2>Riwayat</h2>
-                <p>Cek kabar laporanmu tanpa perlu login</p>
+                <p>Cek kabar laporanmu</p>
             </div>
             <span aria-hidden="true">&rarr;</span>
         </a>
