@@ -13,11 +13,11 @@
     .has-mobile-navigation .site-header .nav-cta {
         display: none;
     }
-    .has-mobile-navigation .brand {
+    .has-mobile-navigation .site-header .brand {
         font-size: 19px;
         gap: 9px;
     }
-    .has-mobile-navigation .brand-mark {
+    .has-mobile-navigation .site-header .brand-mark {
         width: 34px;
         height: 34px;
         border-radius: 11px;
