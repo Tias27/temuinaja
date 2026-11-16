@@ -13,6 +13,12 @@
             <h1 class="page-title" id="history-title">Riwayat <em>laporan</em></h1>
             <p class="page-intro">Pantau laporan yang kamu kirim, termasuk yang sudah selesai</p>
         </header>
+        @if (session('sukses'))
+            <div class="notice history-feedback" role="status">{{ session('sukses') }}</div>
+        @endif
+        @if ($errors->any())
+            <div class="notice error history-feedback" role="alert">{{ $errors->first() }}</div>
+        @endif
         <details class="history-info">
             <summary><span>{{ $laporan->total() }} laporan tersimpan</span><span>Tentang riwayat</span>
             </summary>
@@ -84,6 +90,27 @@
                                 @endforeach
                             </div>
                         @endif
+                        <div class="history-actions">
+                            @if ($item->canBeEditedByReporter())
+                                <a class="button"
+                                    href="{{ route('laporan.history.edit', $item) }}">Edit laporan</a>
+                            @else
+                                <p class="field-hint">Laporan selesai tidak dapat diedit</p>
+                            @endif
+                            <details class="history-delete-confirm">
+                                <summary>Hapus laporan</summary>
+                                <p>Laporan hilang dari riwayat dan katalog. Arsip tetap disimpan oleh
+                                    petugas</p>
+                                <form method="post"
+                                    action="{{ route('laporan.history.destroy', $item) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <label><input type="checkbox" name="konfirmasi" value="1"
+                                            required> Saya yakin ingin menghapus laporan ini</label>
+                                    <button class="button" type="submit">Ya, hapus</button>
+                                </form>
+                            </details>
+                        </div>
                     </details>
                 </article>
             @empty

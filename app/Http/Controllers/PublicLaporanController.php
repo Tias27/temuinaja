@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLaporanRequest;
 use App\Models\Laporan;
+use App\Support\ReportImages;
 use App\Support\ReportPhoto;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class PublicLaporanController extends Controller
 {
@@ -111,39 +110,8 @@ class PublicLaporanController extends Controller
 
     public function store(StoreLaporanRequest $request, string $jenis)
     {
-        if (! function_exists('imagecreatefromstring') || ! function_exists('imagewebp')) {
-            throw ValidationException::withMessages([
-                'foto_barang' => 'Pemrosesan foto sedang tidak tersedia. Hubungi petugas dan coba lagi nanti',
-            ]);
-        }
-
-        $paths = [];
+        $paths = ReportImages::store($request->file('foto_barang'));
         try {
-            foreach ($request->file('foto_barang') as $file) {
-                $image = @imagecreatefromstring(file_get_contents($file->getRealPath()));
-                if (! $image) {
-                    throw ValidationException::withMessages([
-                        'foto_barang' => 'Foto tidak dapat diproses.',
-                    ]);
-                }
-                $relative = 'laporan/'.Str::uuid().'.webp';
-                ob_start();
-                try {
-                    $encoded = imagewebp($image, null, 85);
-                    $bytes = ob_get_contents();
-                } finally {
-                    ob_end_clean();
-                    imagedestroy($image);
-                    unset($image);
-                }
-                if (! $encoded || ! $bytes) {
-                    throw new \RuntimeException('Gagal memproses foto');
-                }
-                if (! Storage::disk('local')->put($relative, $bytes)) {
-                    throw new \RuntimeException('Gagal menyimpan foto');
-                }
-                $paths[] = $relative;
-            }
             $laporan = Laporan::create([
                 ...$request->safe()->except('foto_barang'),
                 'jenis_laporan' => $jenis,
@@ -161,9 +129,7 @@ class PublicLaporanController extends Controller
 
             return redirect()->route('laporan.confirmation', $laporan->kode_laporan);
         } catch (\Throwable $e) {
-            foreach ($paths as $path) {
-                Storage::disk('local')->delete($path);
-            }
+            ReportImages::discard($paths);
             throw $e;
         }
     }
@@ -179,6 +145,7 @@ class PublicLaporanController extends Controller
     public function confirmation(string $kode)
     {
         $laporan = Laporan::where('kode_laporan', $kode)->firstOrFail();
+        abort_if($laporan->ditarik_pada !== null, 404);
         abort_if($laporan->status_laporan === 'selesai' && ! $laporan->isVisibleToPublic(), 404);
 
         return view('public.confirmation', compact('laporan'));
@@ -188,6 +155,6 @@ class PublicLaporanController extends Controller
     {
         abort_unless(auth('admin')->check() || $laporan->isVisibleToPublic(), 404);
 
-        return ReportPhoto::response($laporan, $index, auth('admin')->check() || $laporan->status_laporan === 'selesai');
+        return ReportPhoto::response($laporan, $index);
     }
 }

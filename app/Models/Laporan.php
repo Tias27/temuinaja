@@ -19,6 +19,7 @@ class Laporan extends Model
         'foto_barang' => 'array',
         'tanggal_kejadian' => 'date',
         'dipublikasikan_pada' => 'datetime',
+        'ditarik_pada' => 'datetime',
     ];
 
     public function getRouteKeyName()
@@ -51,7 +52,7 @@ class Laporan extends Model
         $cutoff = now()->subHours(48);
         $ownerHandover = fn (Builder $handover) => $handover->where('jenis_penyerahan', 'ke_pemilik');
 
-        return $query->whereNotNull('dipublikasikan_pada')
+        return $query->whereNull('ditarik_pada')->whereNotNull('dipublikasikan_pada')
             ->where(fn (Builder $visible) => $visible
                 ->whereIn('status_laporan', ['dipublikasikan', 'proses_klaim'])
                 ->orWhere(fn (Builder $completed) => $completed
@@ -77,6 +78,10 @@ class Laporan extends Model
 
     public function adminStage(): string
     {
+        if ($this->ditarik_pada !== null) {
+            return 'ditarik';
+        }
+
         return match ($this->status_laporan) {
             'menunggu_pemeriksaan', 'menunggu_penyerahan' => 'menunggu',
             'dipublikasikan', 'proses_klaim' => 'dipublikasikan',
@@ -84,5 +89,18 @@ class Laporan extends Model
             'ditolak' => 'ditolak',
             default => 'menunggu',
         };
+    }
+
+    public function belongsToBrowser(mixed $hash): bool
+    {
+        return $this->ditarik_pada === null && is_string($hash)
+            && is_string($this->browser_history_hash) && hash_equals($this->browser_history_hash, $hash);
+    }
+
+    public function canBeEditedByReporter(): bool
+    {
+        return $this->ditarik_pada === null && in_array($this->status_laporan, [
+            'menunggu_pemeriksaan', 'menunggu_penyerahan', 'dipublikasikan', 'proses_klaim', 'ditolak',
+        ], true);
     }
 }

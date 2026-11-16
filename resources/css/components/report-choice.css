@@ -196,6 +196,44 @@
 .history-details[open] .history-detail-open {
     display: inline;
 }
+.history-feedback {
+    margin-bottom: 20px;
+}
+.history-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+.history-actions .button {
+    width: 100%;
+    padding: 10px 8px;
+    font-size: 12px;
+}
+.history-delete-confirm > summary {
+    color: #93432c;
+}
+.history-delete-confirm p,
+.history-delete-confirm label {
+    font-size: 12px;
+    line-height: 1.65;
+}
+.history-delete-confirm label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 12px 0;
+}
+.history-delete-confirm input {
+    flex: none;
+    margin: 4px 0 0;
+    accent-color: var(--rust);
+}
+.history-delete-confirm button {
+    border-color: #bd8b75;
+    color: #93432c;
+}
 .history-description {
     margin: 0 0 12px;
     font-size: 13px;

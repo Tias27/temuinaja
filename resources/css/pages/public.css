@@ -264,6 +264,7 @@
     gap: 8px;
 }
 .upload-previews:empty,
+.upload-previews[hidden],
 [data-upload-error]:empty {
     display: none;
 }

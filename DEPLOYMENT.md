@@ -110,6 +110,12 @@ browser tersebut; data laporan tetap tersimpan untuk admin. Orang lain yang
 memakai profil browser yang sama juga dapat melihat riwayat. Laporan selesai
 tetap tampil di riwayat pribadi meskipun sudah hilang dari katalog publik.
 
+Pemilik browser bisa mengedit laporan yang belum selesai, termasuk mengganti seluruh
+foto. Perubahan masuk pemeriksaan ulang dan menarik publikasi sebelumnya. Menghapus
+laporan dari riwayat juga menariknya dari katalog; data dan foto tetap diarsipkan
+di tab `Ditarik` pada admin. Arsip ini tidak dapat dipublikasikan lagi. Laporan
+selesai hanya dapat ditarik, sehingga catatan penyelesaiannya tetap utuh.
+
 ## Batas upload
 
 ```ini

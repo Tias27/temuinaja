@@ -17,6 +17,11 @@
         <span class="status-badge"
             data-status="{{ $laporan->adminStage() }}">{{ ucfirst($laporan->adminStage()) }}</span>
     </div>
+    @if ($laporan->ditarik_pada)
+        <div class="notice">Laporan ditarik oleh pelapor pada
+            {{ $laporan->ditarik_pada->translatedFormat('d F Y, H:i') }}. Arsip ini tidak tampil di
+            publik dan tidak dapat dipublikasikan lagi</div>
+    @endif
     <section class="card admin-report-overview" aria-label="Informasi laporan">
         <div class="admin-report-media">
             @include('partials.report-media', ['item' => $laporan])

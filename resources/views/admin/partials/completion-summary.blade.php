@@ -1,4 +1,4 @@
-@if ($laporan->adminStage() === 'selesai')
+@if ($laporan->status_laporan === 'selesai')
     @php
         $completion = $laporan->penyelesaian;
         $legacyHandover = $laporan->penyerahan

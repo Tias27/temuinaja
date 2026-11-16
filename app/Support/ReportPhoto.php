@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class ReportPhoto
 {
     // Call only after the controller has authorized access to the report.
-    public static function response(Laporan $laporan, int $index, bool $noStore = true): BinaryFileResponse
+    public static function response(Laporan $laporan, int $index): BinaryFileResponse
     {
         $path = $laporan->foto_barang[$index] ?? null;
         abort_unless(is_string($path) && preg_match('~^laporan/[a-zA-Z0-9_-]+\.webp$~D', $path), 404);
@@ -19,7 +19,7 @@ class ReportPhoto
 
         return response()->file($file, [
             'Content-Type' => 'image/webp',
-            'Cache-Control' => $noStore ? 'private, no-store' : 'private, max-age=3600',
+            'Cache-Control' => 'private, no-store',
             'X-Content-Type-Options' => 'nosniff',
         ])->setPrivate();
     }

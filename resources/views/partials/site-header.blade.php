@@ -15,7 +15,8 @@
                     'laporan.choose',
                     'laporan.create',
                     'laporan.history',
-                    'laporan.history.page')) aria-current="page" @endif>Laporan</a>
+                    'laporan.history.page',
+                    'laporan.history.edit')) aria-current="page" @endif>Laporan</a>
     </nav>
     <a class="nav-cta" href="{{ route('laporan.choose') }}">Buat laporan</a>
     <a class="mobile-header-search" href="{{ $itemsUrl }}" aria-label="Cari barang">

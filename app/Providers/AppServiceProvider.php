@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('manage-laporan', fn ($admin) => $admin instanceof Admin);
-        foreach (['catalog' => 60, 'catalog-search' => 20, 'report-submit' => 15, 'report-detail' => 60, 'report-photo' => 180] as $name => $limit) {
+        foreach (['catalog' => 60, 'catalog-search' => 20, 'report-submit' => 15, 'report-manage' => 15, 'report-detail' => 60, 'report-photo' => 180] as $name => $limit) {
             RateLimiter::for($name, fn (Request $request) => Limit::perMinute($limit)->by($request->ip()));
         }
         RateLimiter::for('admin-login', function (Request $request) {

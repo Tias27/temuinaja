@@ -20,7 +20,7 @@ class LaporanController extends Controller
         $jenis = in_array($request->query('jenis'), ['ditemukan', 'hilang'], true)
             ? $request->query('jenis')
             : 'ditemukan';
-        $status = in_array($request->query('status'), ['semua', 'menunggu', 'dipublikasikan', 'selesai', 'ditolak'], true)
+        $status = in_array($request->query('status'), ['semua', 'menunggu', 'dipublikasikan', 'selesai', 'ditolak', 'ditarik'], true)
             ? $request->query('status')
             : 'menunggu';
         $perPage = preg_match('/Android|iPhone|iPad|iPod|Mobile/i', $request->userAgent() ?? '') ? 5 : 10;
@@ -31,6 +31,8 @@ class LaporanController extends Controller
         $laporan = Laporan::query()
             ->with('penyelesaian.admin')
             ->where('jenis_laporan', $jenis)
+            ->when($status === 'ditarik', fn ($query) => $query->whereNotNull('ditarik_pada'))
+            ->when(! in_array($status, ['semua', 'ditarik'], true), fn ($query) => $query->whereNull('ditarik_pada'))
             ->when($status === 'menunggu', fn ($query) => $query->whereIn('status_laporan', ['menunggu_pemeriksaan', 'menunggu_penyerahan']))
             ->when($status === 'dipublikasikan', fn ($query) => $query->whereIn('status_laporan', ['dipublikasikan', 'proses_klaim']))
             ->when(in_array($status, ['selesai', 'ditolak'], true), fn ($query) => $query->where('status_laporan', $status))

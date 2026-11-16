@@ -120,7 +120,9 @@ class InterfaceTest extends TestCase
                 ->assertSee('action="'.route('laporan.store', $type).'"', false)
                 ->assertSee('Jenis laporan')
                 ->assertSee('name="kontak_pelapor"', false)
-                ->assertSee('inputmode="numeric" pattern="[0-9]+" data-phone-digits', false)
+                ->assertSee('inputmode="numeric"', false)
+                ->assertSee('pattern="[0-9]+"', false)
+                ->assertSee('data-phone-digits', false)
                 ->assertSee('href="'.route('laporan.create', 'hilang').'"', false)
                 ->assertSee('href="'.route('laporan.create', 'ditemukan').'"', false);
             $this->from($url)->post(route('laporan.store', $type), [

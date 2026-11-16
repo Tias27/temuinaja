@@ -38,16 +38,20 @@ export function initializeReportSubmission(form) {
         if (submitting) return;
         submitting = true;
         submit.disabled = true;
-        submit.textContent = 'Mengirim laporan...';
+        submit.textContent = 'Menyimpan laporan...';
         form.setAttribute('aria-busy', 'true');
         notice.hidden = true;
         showErrors({});
 
         try {
             // Keep the current document and FileList intact when server validation fails.
+            const payload = new FormData(form);
+            form.querySelectorAll('input[type="file"]').forEach((input) => {
+                if (!input.files.length) payload.delete(input.name);
+            });
             const response = await fetch(form.action, {
                 method: 'POST',
-                body: new FormData(form),
+                body: payload,
                 credentials: 'same-origin',
                 redirect: 'error',
                 headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
@@ -61,7 +65,7 @@ export function initializeReportSubmission(form) {
                 return;
             }
             if (response.status === 419) {
-                const freshForm = await fetch(form.action, {
+                const freshForm = await fetch(form.dataset.refreshUrl || form.action, {
                     credentials: 'same-origin',
                     redirect: 'error',
                     headers: { Accept: 'text/html' },
@@ -74,7 +78,7 @@ export function initializeReportSubmission(form) {
                 const token = document.querySelector('[data-report-form] input[name="_token"]');
                 if (!token?.value) throw new Error('Missing CSRF token');
                 form.elements.namedItem('_token').value = token.value;
-                showNotice('Sesi sudah diperbarui. Klik Kirim laporan lagi, foto tetap terpilih');
+                showNotice('Sesi sudah diperbarui. Coba simpan lagi, foto tetap terpilih');
                 return;
             }
             if (response.status === 429) {
@@ -84,9 +88,9 @@ export function initializeReportSubmission(form) {
                 return;
             }
             if (!response.ok) throw new Error('Report submission failed');
-            const payload = await response.json();
-            if (typeof payload.redirect !== 'string') throw new Error('Missing redirect');
-            const destination = new URL(payload.redirect, window.location.href);
+            const result = await response.json();
+            if (typeof result.redirect !== 'string') throw new Error('Missing redirect');
+            const destination = new URL(result.redirect, window.location.href);
             if (destination.origin !== window.location.origin) throw new Error('Invalid redirect');
             window.location.assign(destination.href);
         } catch {

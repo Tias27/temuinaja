@@ -33,7 +33,7 @@
             @endforeach
         </nav>
         <nav class="admin-stage-tabs" aria-label="Tahap laporan">
-            @foreach (['menunggu' => 'Menunggu', 'dipublikasikan' => 'Dipublikasikan', 'selesai' => 'Selesai', 'ditolak' => 'Ditolak', 'semua' => 'Semua'] as $stage => $label)
+            @foreach (['menunggu' => 'Menunggu', 'dipublikasikan' => 'Dipublikasikan', 'selesai' => 'Selesai', 'ditolak' => 'Ditolak', 'ditarik' => 'Ditarik', 'semua' => 'Semua'] as $stage => $label)
                 <a href="{{ route('admin.index', ['jenis' => $jenis, 'status' => $stage]) }}"
                     @if ($status === $stage) aria-current="page" @endif>{{ $label }}</a>
             @endforeach

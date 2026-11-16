@@ -32,6 +32,8 @@ export function initializeReportForm() {
         input.setAttribute('aria-invalid', String(Boolean(message)));
         error.textContent = message;
         error.hidden = !message;
+        const savedPhotos = form.querySelector('[data-existing-photos]');
+        if (savedPhotos) savedPhotos.hidden = files.length > 0 && !message;
         if (message) return;
 
         files.forEach((file) => {

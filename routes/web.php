@@ -52,6 +52,12 @@ Route::get('/lapor/riwayat/halaman/{page}', [ReportHistoryController::class, 'in
 Route::get('/lapor/riwayat/{laporan}/foto/{index}', [ReportHistoryController::class, 'photo'])
     ->where('index', '[0-2]')
     ->middleware(['throttle:report-photo', BrowserReportHistory::class])->name('laporan.history.photo');
+Route::get('/lapor/riwayat/{laporan}/edit', [ReportHistoryController::class, 'edit'])
+    ->middleware(['throttle:report-detail', BrowserReportHistory::class])->name('laporan.history.edit');
+Route::patch('/lapor/riwayat/{laporan}', [ReportHistoryController::class, 'update'])
+    ->middleware(['throttle:report-manage', BrowserReportHistory::class])->name('laporan.history.update');
+Route::delete('/lapor/riwayat/{laporan}', [ReportHistoryController::class, 'destroy'])
+    ->middleware(['throttle:report-manage', BrowserReportHistory::class])->name('laporan.history.destroy');
 Route::get('/lapor/{jenis}', [PublicLaporanController::class, 'create'])
     ->whereIn('jenis', ['hilang', 'ditemukan'])->middleware(BrowserReportHistory::class)->name('laporan.create');
 Route::post('/lapor/{jenis}', [PublicLaporanController::class, 'store'])
