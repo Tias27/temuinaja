@@ -81,6 +81,30 @@ class ReportSubmissionTest extends TestCase
         $this->assertSame([], Storage::disk('local')->allFiles());
     }
 
+    #[DataProvider('reportTypes')]
+    public function test_async_validation_can_retry_same_photos_after_fixing_phone(string $jenis): void
+    {
+        Storage::fake('local');
+        $photos = [UploadedFile::fake()->image('depan.png'), UploadedFile::fake()->image('belakang.jpg')];
+        $payload = [...$this->fields(), 'kontak_pelapor' => '08232323', 'foto_barang' => $photos];
+        $this->post(route('laporan.store', $jenis), $payload, ['Accept' => 'application/json'])
+            ->assertUnprocessable()->assertJsonValidationErrors('kontak_pelapor')
+            ->assertJsonMissingValidationErrors('foto_barang');
+        $this->assertDatabaseCount('laporan', 0);
+        $this->assertSame([], Storage::disk('local')->allFiles());
+
+        $response = $this->post(route('laporan.store', $jenis), [
+            ...$payload, 'kontak_pelapor' => '082323231234',
+        ], ['Accept' => 'application/json'])->assertCreated();
+        $report = Laporan::firstOrFail();
+        $response->assertExactJson(['redirect' => route('laporan.confirmation', $report->kode_laporan)]);
+        $this->assertDatabaseCount('laporan', 1);
+        $this->assertCount(2, $report->foto_barang);
+        foreach ($report->foto_barang as $path) {
+            Storage::disk('local')->assertExists($path);
+        }
+    }
+
     public static function invalidContacts(): array
     {
         return [[null], ['123'], ['0812abc345678'], ['0812 3456 7890'], ['0812-3456-7890'], ['+6281234567890'], ['javascript:6281234567890'], [['081234567890']], ['6281234567890123456']];

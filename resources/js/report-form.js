@@ -1,5 +1,10 @@
+import { initializeReportSubmission } from './report-submission';
+
 export function initializeReportForm() {
-    const input = document.querySelector('[data-report-form] input[type="file"]');
+    const form = document.querySelector('[data-report-form]');
+    if (!form) return;
+    initializeReportSubmission(form);
+    const input = form.querySelector('input[type="file"]');
     const previews = document.querySelector('[data-upload-previews]');
     const error = document.querySelector('[data-upload-error]');
     if (!input || !previews || !error) return;
@@ -26,6 +31,7 @@ export function initializeReportForm() {
         input.setCustomValidity(message);
         input.setAttribute('aria-invalid', String(Boolean(message)));
         error.textContent = message;
+        error.hidden = !message;
         if (message) return;
 
         files.forEach((file) => {

@@ -52,10 +52,9 @@
                     <h2>Lengkapi ceritanya</h2>
                     <p>Semua kolom perlu diisi</p>
                 </div>
-                @if ($errors->any())
-                    <div class="notice error" role="alert">Laporan belum terkirim, periksa kembali
-                        data berikut</div>
-                @endif
+                <div class="notice error" role="alert" data-report-errors
+                    @if (!$errors->any()) hidden @endif>Laporan belum terkirim, periksa
+                    kembali data berikut</div>
                 <div class="field">
                     <label
                         for="nama-pelapor">{{ $jenis === 'hilang' ? 'Nama pelapor' : 'Nama penemu' }}</label>
@@ -65,9 +64,12 @@
                         @error('nama_pelapor') aria-invalid="true" @enderror>
                     <p id="nama-hint" class="field-hint">Nama hanya digunakan petugas, tidak tampil di
                         katalog</p>
-                    @error('nama_pelapor')
-                        <p class="field-error">{{ $message }}</p>
-                    @enderror
+                    <p class="field-error" data-field-error="nama_pelapor" id="nama-error"
+                        @if (!$errors->has('nama_pelapor')) hidden @endif>
+                        @error('nama_pelapor')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
                 <div class="field">
                     <label for="kontak-pelapor">Nomor WhatsApp</label>
@@ -78,9 +80,12 @@
                         @error('kontak_pelapor') aria-invalid="true" @enderror>
                     <p id="kontak-hint" class="field-hint">Gunakan nomor aktif agar petugas bisa
                         menghubungimu. Nomor ini hanya terlihat oleh petugas</p>
-                    @error('kontak_pelapor')
-                        <p id="kontak-error" class="field-error">{{ $message }}</p>
-                    @enderror
+                    <p id="kontak-error" class="field-error" data-field-error="kontak_pelapor"
+                        @if (!$errors->has('kontak_pelapor')) hidden @endif>
+                        @error('kontak_pelapor')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
                 <div class="field upload-field">
                     <label for="foto-barang">Foto barang</label>
@@ -89,7 +94,8 @@
                         aria-describedby="foto-hint foto-error">
                     <p id="foto-hint" class="field-hint">JPG, PNG, atau WebP &middot; 1&ndash;3 foto
                         &middot; maksimal 5 MB dan 4096 &times; 4096 piksel per foto</p>
-                    <p id="foto-error" class="field-error" data-upload-error role="alert">
+                    <p id="foto-error" class="field-error" data-upload-error
+                        data-field-error="foto_barang" role="alert">
                         @error('foto_barang')
                             {{ $message }}
                             @enderror @error('foto_barang.*')
@@ -107,9 +113,12 @@
                         placeholder="Contoh: dompet lipat cokelat, ada goresan kecil di bagian depan"
                         @error('deskripsi') aria-invalid="true" @enderror>{{ old('deskripsi') }}</textarea>
                     <p class="field-hint">Sebutkan jenis, warna, merek, dan ciri yang mudah dikenali</p>
-                    @error('deskripsi')
-                        <p class="field-error">{{ $message }}</p>
-                    @enderror
+                    <p class="field-error" data-field-error="deskripsi" id="deskripsi-error"
+                        @if (!$errors->has('deskripsi')) hidden @endif>
+                        @error('deskripsi')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
                 <div class="form-row">
                     <div class="field">
@@ -118,9 +127,12 @@
                         <input id="lokasi" name="lokasi" value="{{ old('lokasi') }}" required
                             maxlength="180" placeholder="Contoh: kantin Gedung A"
                             @error('lokasi') aria-invalid="true" @enderror>
-                        @error('lokasi')
-                            <p class="field-error">{{ $message }}</p>
-                        @enderror
+                        <p class="field-error" data-field-error="lokasi" id="lokasi-error"
+                            @if (!$errors->has('lokasi')) hidden @endif>
+                            @error('lokasi')
+                                {{ $message }}
+                            @enderror
+                        </p>
                     </div>
                     <div class="field">
                         <label
@@ -128,9 +140,12 @@
                         <input id="tanggal-kejadian" type="date" name="tanggal_kejadian"
                             max="{{ now()->toDateString() }}" value="{{ old('tanggal_kejadian') }}"
                             required @error('tanggal_kejadian') aria-invalid="true" @enderror>
-                        @error('tanggal_kejadian')
-                            <p class="field-error">{{ $message }}</p>
-                        @enderror
+                        <p class="field-error" data-field-error="tanggal_kejadian" id="tanggal-error"
+                            @if (!$errors->has('tanggal_kejadian')) hidden @endif>
+                            @error('tanggal_kejadian')
+                                {{ $message }}
+                            @enderror
+                        </p>
                     </div>
                 </div>
                 <div class="form-submit">

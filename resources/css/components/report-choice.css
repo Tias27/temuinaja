@@ -249,10 +249,10 @@
 }
 .history-item-heading {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
 }
 .history-item h2 {
     display: -webkit-box;
@@ -261,6 +261,7 @@
     overflow: hidden;
     font-size: 16px;
     line-height: 1.45;
+    height: 2.9em;
     overflow-wrap: anywhere;
     white-space: pre-line;
 }

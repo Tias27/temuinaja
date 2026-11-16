@@ -153,6 +153,12 @@ class PublicLaporanController extends Controller
                 'browser_history_hash' => $request->attributes->get('browser_history_hash'),
             ]);
 
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'redirect' => route('laporan.confirmation', $laporan->kode_laporan),
+                ], 201);
+            }
+
             return redirect()->route('laporan.confirmation', $laporan->kode_laporan);
         } catch (\Throwable $e) {
             foreach ($paths as $path) {
