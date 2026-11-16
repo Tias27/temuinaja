@@ -351,24 +351,57 @@
 }
 @media (max-width: 600px) {
     .report-choices {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         max-width: 420px;
+        gap: 12px;
+    }
+    .report-choice {
+        min-width: 0;
+        padding: 14px 12px;
+        border-radius: 15px;
+    }
+    .report-choice-copy .report-choice-kicker {
+        display: none;
+    }
+    .report-choice h2 {
+        margin: 6px 0 10px;
+        font-size: clamp(17px, 4.8vw, 21px);
+        line-height: 1.2;
+    }
+    .report-choice-copy p {
+        margin-bottom: 14px;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+    .report-choice-action {
+        min-height: 36px;
+        padding-top: 10px;
+        gap: 4px;
+        font-size: 11px;
+    }
+    .report-choice-action svg {
+        flex: none;
+        width: 16px;
+        height: 16px;
     }
     .report-choice-heading {
         text-align: left;
-        margin-bottom: 26px;
+        margin-bottom: 20px;
+    }
+    .report-choice-heading .page-title {
+        font-size: clamp(30px, 8vw, 38px);
     }
     .report-choice-heading .page-intro {
         margin-left: 0;
         font-size: 13px;
     }
     .report-choice-art {
-        height: 115px;
-        margin-bottom: 12px;
+        height: 76px;
+        margin-bottom: 8px;
     }
     .report-choice-art svg {
-        width: 160px;
-        height: 115px;
+        width: 108px;
+        height: 76px;
     }
     .report-choice-help {
         align-items: flex-start;

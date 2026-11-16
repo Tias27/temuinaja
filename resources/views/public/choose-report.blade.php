@@ -18,10 +18,9 @@
                 <div class="report-choice-copy">
                     <span class="report-choice-kicker">BANTU CARI BARANGKU</span>
                     <h2 id="choice-lost-title">Saya kehilangan barang</h2>
-                    <p id="choice-lost-description">Barang milikmu hilang atau tertinggal di kampus?
-                        Beri tahu cirinya supaya petugas bisa bantu mencari</p>
+                    <p id="choice-lost-description">Ceritakan ciri barang yang kamu cari</p>
                 </div>
-                <span class="report-choice-action">Laporkan kehilangan
+                <span class="report-choice-action">Buat laporan
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.6"
                             stroke-linecap="round" stroke-linejoin="round" />
@@ -37,10 +36,9 @@
                 <div class="report-choice-copy">
                     <span class="report-choice-kicker">BANTU BARANG KEMBALI</span>
                     <h2 id="choice-found-title">Saya menemukan barang</h2>
-                    <p id="choice-found-description">Menemukan barang yang bukan milikmu? Laporkan
-                        temuannya agar bisa kembali ke pemiliknya</p>
+                    <p id="choice-found-description">Bantu barang kembali ke pemiliknya</p>
                 </div>
-                <span class="report-choice-action">Laporkan temuan
+                <span class="report-choice-action">Buat laporan
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.6"
                             stroke-linecap="round" stroke-linejoin="round" />
